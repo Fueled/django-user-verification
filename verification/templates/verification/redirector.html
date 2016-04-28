@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Password recovery</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+</head>
+
+<style>
+ body {
+    background-color: #EEE;
+    font-family: 'HelveticaNeue-Regular', 'Helvetica Neue Regular', 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif;
+    font-size: 16px;
+    font-weight: 300;
+    color: #868686;
+    line-height: 24px;
+ }
+</style>
+<body>
+
+<div class="content">
+    Please wait while we redirect you to the app.
+</div>
+
+<script type="text/javascript">
+
+function redirectToApp() {
+    window.location = "{{ redirect_url }}"
+}
+
+setTimeout(redirectToApp, 1000)
+
+</script>
+
+</body>
+</html>
