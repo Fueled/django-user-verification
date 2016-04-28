@@ -1,21 +1,30 @@
-# Config file for automatic testing at travis-ci.org
-
 language: python
-
+sudo: false
 python:
   - "3.5"
   - "3.4"
   - "2.7"
 
-before_install:
-  - pip install codecov
+before_script:
+  - flake8 verification/
 
-# command to install dependencies, e.g. pip install -r requirements.txt --use-mirrors
-install: pip install -r requirements-test.txt
+cache:
+  directories:
+  - $HOME/.pip-cache/
 
-# command to run tests using coverage, e.g. python setup.py test
-script: coverage run --source verification runtests.py
+# command to run tests using coverage, e.g. python setup.py test    +script:
+script: coverage run --source verification runtests.py  requirements-test.txt
+
+install:
+  - pip install -r requirements-test.txt --allow-all-external --download-cache $HOME/.pip-cache
+
+script:
+- python runtests.py
 
 after_success:
   - codecov
 
+notifications:
+  email:
+    on_success: change  # [always|never|change]
+    on_failure: always  # [always|never|change]

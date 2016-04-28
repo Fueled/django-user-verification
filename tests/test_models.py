@@ -1,5 +1,5 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
+# !/usr/bin/env python
+#  -*- coding: utf-8 -*-
 
 """
 test_django-user-verification
@@ -10,7 +10,7 @@ Tests for `django-user-verification` models module.
 
 from django.test import TestCase
 
-from verification.backends import base, twilio
+# from verification.backends import base, twilio
 
 
 class TestVerification(TestCase):

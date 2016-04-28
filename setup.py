@@ -1,5 +1,5 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
+# !/usr/bin/env python
+#  -*- coding: utf-8 -*-
 import os
 import re
 import sys
@@ -23,7 +23,7 @@ version = get_version('verification', '__init__.py')
 
 if sys.argv[-1] == 'publish':
     try:
-        import wheel
+            import wheel
     except ImportError:
         print('Wheel library missing. Please run "pip install wheel"')
         sys.exit()
