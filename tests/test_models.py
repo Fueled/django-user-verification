@@ -10,7 +10,7 @@ Tests for `django-user-verification` models module.
 
 from django.test import TestCase
 
-from verification import models
+from verification.backends import base, twilio
 
 
 class TestVerification(TestCase):
