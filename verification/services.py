@@ -10,7 +10,7 @@ from django.utils.translation import ugettext_lazy as _
 
 
 # Local
-from .backends import get_sms_backend
+from .backends import get_phone_backend
 
 DEFAULT_EXPIRY = 3600 * 3
 DEFAULT_MESSAGE = _("Welcome to {app}, continue with this link {link}")
@@ -20,7 +20,7 @@ class PhoneVerificationService(object):
 
     verification_message = settings.PHONE_VERIFICATION.get('MESSAGE', DEFAULT_MESSAGE)
 
-    def __init__(self, backend=get_sms_backend()):
+    def __init__(self, backend=get_phone_backend()):
         self.backend = backend
 
     def send_verification(self, number, request):
@@ -34,7 +34,7 @@ class PhoneVerificationService(object):
         url = self.create_url(request, key)
         message = self._generate_message(url)
 
-        self.backend.send_sms(number, message)
+        self.backend.send(number, message)
 
     def create_url(self, request, key):
         """
