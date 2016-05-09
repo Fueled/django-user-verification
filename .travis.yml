@@ -19,6 +19,7 @@ install:
   - pip install -r requirements-test.txt --allow-all-external --download-cache $HOME/.pip-cache
 
 script:
+- flake8 ./verification
 - python runtests.py
 
 after_success:

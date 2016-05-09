@@ -13,7 +13,7 @@ from django.test import TestCase
 from nose.tools import ok_
 from rest_framework.test import APIRequestFactory
 from mock import patch
-from django.core.urlresolvers import reverse 
+from django.core.urlresolvers import reverse
 from time import sleep
 
 # Local Stuff
@@ -51,14 +51,9 @@ class TestVerification(TestCase):
         self.assertEquals(token, 55555)
         self.assertEquals(self.service.check_pin(token, self.phone_number), True)
 
-
     @patch('verification.services.PhoneVerificationService.generator')
     def test_create_temporary_token_with_expiry_value_zero(self, mock):
         mock.return_value = 55555
         token = self.service.create_temporary_token(number=self.phone_number, expiry=0)
         sleep(1)
         self.assertEquals(self.service.check_pin(token, self.phone_number), False)
-
-
-    def tearDown(self):
-        pass
