@@ -5,7 +5,7 @@ from rest_framework import routers
 from django.conf.urls import url
 
 # smash Stuff
-from .views import VerificationViewSet, VerificationRedirectorView
+from .views import VerificationRedirectorView
 
 
 urlpatterns = [
@@ -15,6 +15,5 @@ urlpatterns = [
 ]
 
 router = routers.DefaultRouter(trailing_slash=False)
-router.register(r'api/verification', VerificationViewSet, base_name='verification')
 
 urlpatterns += router.urls

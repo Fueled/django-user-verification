@@ -1,4 +1,5 @@
 import sys
+import os
 
 try:
     from django.conf import settings
@@ -21,6 +22,23 @@ try:
         ],
         SITE_ID=1,
         MIDDLEWARE_CLASSES=(),
+        # PHONE VERIFICATION
+        PHONE_VERIFICATION={
+            'BACKEND': 'verification.backends.twilio.TwilioBackend',
+            'OPTIONS': {
+                'SID': os.getenv('TWILIO_API_SID', default='fake'),
+                'SECRET': os.getenv('TWILIO_API_SECRET', default='fake'),
+                'FROM': os.getenv('TWILIO_FROM', default='+14755292729')
+            },
+            'APP_URL': 'app://'
+        },
+        # EMAIL
+        EMAIL_VERIFICATION={
+            'BACKEND': 'verification.backends.twilio.EmailBackend',
+            'OPTIONS': {
+                'FROM': os.getenv('FROM_EMAIL', default='dummy@fueled.com'),
+            }
+        }
     )
 
     try:
@@ -41,7 +59,7 @@ def run_tests(*test_args):
     if not test_args:
         test_args = ['tests']
 
-    # Run tests
+    #  Run tests
     TestRunner = get_runner(settings)
     test_runner = TestRunner()
 
