@@ -16,8 +16,9 @@ services = {}
 
 class VerificationService(object):
 
-    def __init__(self, backend):
+    def __init__(self, backend, verification_type):
         self.backend = backend
+        self.verification_type = verification_type
 
     def send_verification(self, recipient, request):
         """
@@ -46,7 +47,8 @@ class VerificationService(object):
             raise ValueError('Key required')
 
         return request.build_absolute_uri(
-            reverse('verification-redirector', kwargs={'code': key}))
+            reverse('verification-redirector', kwargs={'code': key,
+                                                       'verification_type': self.verification_type}))
 
     def create_temporary_token(self, number, expiry=DEFAULT_EXPIRY):
         """
@@ -84,6 +86,6 @@ def get_service(service_name):
         raise ValueError("{} not a valid service.".format(service_name))
 
     if not services.get(service_name, None):
-        service = VerificationService(get_backend(service_name))
+        service = VerificationService(get_backend(service_name), service_name)
         services[service_name] = service
     return services[service_name]

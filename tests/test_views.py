@@ -12,7 +12,7 @@ import random
 # Third Party Stuff
 from django.core.urlresolvers import reverse
 from rest_framework.test import APITestCase, APIClient
-from nose.tools import eq_
+from nose.tools import eq_, ok_
 
 # Local Stuff
 

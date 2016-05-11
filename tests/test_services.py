@@ -22,7 +22,7 @@ class TestVerification(TestCase):
 
     @patch('verification.backends.twilio.TwilioBackend')
     def setUp(self, mock):
-        self.service = VerificationService(backend=mock)
+        self.service = VerificationService(mock, 'fake')
         factory = APIRequestFactory()
         self.request = factory.get('/')
         self.mock = mock

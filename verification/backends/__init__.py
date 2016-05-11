@@ -26,4 +26,4 @@ def get_backend(service_name):
         backend_import = service_settings.get('BACKEND', None)
 
     backend_cls = import_string(backend_import)
-    return backend_cls(**service_settings.get('OPTIONS', {}))
+    return backend_cls(identifier=service_name, **service_settings.get('OPTIONS', {}))
