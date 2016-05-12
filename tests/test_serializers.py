@@ -13,7 +13,7 @@ from django.test import TestCase
 from rest_framework import serializers
 from nose.tools import ok_, raises
 from rest_framework.serializers import ValidationError
-from mock import patch, MagicMock
+from mock import patch
 
 # Local Stuff
 from verification.serializers import VerificationSerializer

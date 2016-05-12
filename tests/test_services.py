@@ -32,7 +32,7 @@ class TestVerification(TestCase):
         """ Test that send_verification with a valid number and request,
             is successful
         """
-        self.service.send_verification(number=self.phone_number, request=self.request)
+        self.service.send_verification(recipient=self.phone_number, request=self.request)
         ok_(self.mock.send.called)
 
     @raises(ValueError)

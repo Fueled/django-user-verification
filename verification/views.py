@@ -3,8 +3,14 @@
 # Third party
 from django.views.generic import TemplateView
 from django.conf import settings
+from django.http import Http404
+from rest_framework import generics, status
+from rest_framework.response import Response
+from rest_framework.exceptions import ValidationError
 
-# Verification Stuff
+# Local Stuff
+from verification.serializers import VerificationSerializer
+from verification.services import get_service
 
 
 class VerificationRedirectorView(TemplateView):
@@ -15,3 +21,20 @@ class VerificationRedirectorView(TemplateView):
             settings.PHONE_VERIFICATION.get('APP_PATH', 'phone_verification'), code)
 
         return context
+
+
+class SendVerificationAPIView(generics.CreateAPIView):
+    serializer_class = VerificationSerializer
+
+    def post(self, request, verification_type=None):
+        try:
+            service = get_service(verification_type)
+        except ValueError as e:
+            raise Http404(e)
+
+        recipient = self.request.data.get(verification_type, None)
+        if not recipient:
+            raise ValidationError("recipient is required.")
+
+        service.send_verification(recipient, request)
+        return Response(status=status.HTTP_204_NO_CONTENT)

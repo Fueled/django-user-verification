@@ -5,7 +5,7 @@ import random
 # Third party
 from django.core.urlresolvers import reverse
 from django.core.cache import cache
-
+from django.conf import settings
 
 # Local
 from .backends import get_backend
@@ -19,20 +19,20 @@ class VerificationService(object):
     def __init__(self, backend):
         self.backend = backend
 
-    def send_verification(self, number, request):
+    def send_verification(self, recipient, request):
         """
-        Send a verification email to the given email to verify.
+        Send a verification email/ text to the given recipient to verify.
 
-        :param number: the phone number of recipient.
+        :param recipient: the phone number/ email of recipient.
         :param request: request it needs to point to (url)
         """
-        if not number:
-            raise ValueError('number required')
+        if not recipient:
+            raise ValueError('recipient value is required.')
 
-        key = self.create_temporary_token(number)
+        key = self.create_temporary_token(recipient)
         url = self.create_url(request, key)
 
-        return self.backend.send(number, url)
+        return self.backend.send(recipient, url)
 
     def create_url(self, request, key):
         """
@@ -79,6 +79,10 @@ class VerificationService(object):
 
 
 def get_service(service_name):
+    # Check if service_name in USER_VERIFICATIOn
+    if not settings.USER_VERIFICATION.get(service_name, None):
+        raise ValueError("{} not a valid service.".format(service_name))
+
     if not services.get(service_name, None):
         service = VerificationService(get_backend(service_name))
         services[service_name] = service

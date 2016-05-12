@@ -7,5 +7,5 @@ class BaseBackend(object):
     def __init__(self, **settings):
         pass
 
-    def send(self, numbers, message):
+    def send(self, recipient, message):
         pass

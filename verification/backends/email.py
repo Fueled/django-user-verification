@@ -11,6 +11,7 @@ from .base import BaseBackend
 
 
 class EmailBackend(BaseBackend):
+    plaintext_template = 'verification/email.txt'
     html_template = 'verification/email.html'
     subject = 'Please verify your email'
 
@@ -20,17 +21,20 @@ class EmailBackend(BaseBackend):
         options = {key.lower(): value for key, value in options.items()}
         self.from_email = options.get('from_email', None)
         self.html_template = options.get('html_template', self.html_template)
+        self.plaintext_template = options.get('plaintext_template', self.plaintext_template)
         self.subject = options.get('subject', self.subject)
 
     def send(self, email, link):
-        html = self._create_html(link)
-        msg = EmailMultiAlternatives(self.subject, None, self.from_email,
+        html = self._create_template(self.html_template, link)
+        text = self._create_template(self.plaintext_template, link)
+        msg = EmailMultiAlternatives(self.subject, text, self.from_email,
                                      [email])
         msg.attach_alternative(html, "text/html")
         return msg.send()
 
-    def _create_html(self, link):
-        html_content = loader.get_template(self.html_template)
+    @classmethod
+    def _create_template(cls, template_name, link):
+        html_content = loader.get_template(template_name)
 
         context = Context({
             'url': link

@@ -25,7 +25,7 @@ try:
         # PHONE VERIFICATION
         USER_VERIFICATION={
             'phone': {
-                'BACKEND': 'verification.backends.twilio.TwilioBackend',
+                'BACKEND': 'verification.backends.base.BaseBackend',
                 'OPTIONS': {
                     'SID': os.getenv('TWILIO_API_SID', default='fake'),
                     'SECRET': os.getenv('TWILIO_API_SECRET', default='fake'),
@@ -35,7 +35,7 @@ try:
                 'APP_URL': 'app://'
             },
             'email': {
-                'BACKEND': 'verification.backends.email.EmailBackend',
+                'BACKEND': 'verification.backends.base.BaseBackend',
                 'OPTIONS': {
                     'FROM': os.getenv('FROM_EMAIL', default='dummy@fueled.com')
                 },
