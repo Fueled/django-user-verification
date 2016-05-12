@@ -23,22 +23,26 @@ try:
         SITE_ID=1,
         MIDDLEWARE_CLASSES=(),
         # PHONE VERIFICATION
-        PHONE_VERIFICATION={
-            'BACKEND': 'verification.backends.twilio.TwilioBackend',
-            'OPTIONS': {
-                'SID': os.getenv('TWILIO_API_SID', default='fake'),
-                'SECRET': os.getenv('TWILIO_API_SECRET', default='fake'),
-                'FROM': os.getenv('TWILIO_FROM', default='+14755292729')
+        USER_VERIFICATION={
+            'phone': {
+                'BACKEND': 'verification.backends.twilio.TwilioBackend',
+                'OPTIONS': {
+                    'SID': os.getenv('TWILIO_API_SID', default='fake'),
+                    'SECRET': os.getenv('TWILIO_API_SECRET', default='fake'),
+                    'FROM': os.getenv('TWILIO_FROM', default='+14755292729'),
+                    'MESSAGE': "Welcome, continue with this link: {link}"
+                },
+                'APP_URL': 'app://'
             },
-            'APP_URL': 'app://'
+            'email': {
+                'BACKEND': 'verification.backends.email.EmailBackend',
+                'OPTIONS': {
+                    'FROM': os.getenv('FROM_EMAIL', default='dummy@fueled.com')
+                },
+                'APP_URL': 'app://'
+            },
+
         },
-        # EMAIL
-        EMAIL_VERIFICATION={
-            'BACKEND': 'verification.backends.twilio.EmailBackend',
-            'OPTIONS': {
-                'FROM': os.getenv('FROM_EMAIL', default='dummy@fueled.com'),
-            }
-        }
     )
 
     try:

@@ -4,7 +4,7 @@
 from django.views.generic import TemplateView
 from django.conf import settings
 
-# Smash stuff
+# Verification Stuff
 
 
 class VerificationRedirectorView(TemplateView):
