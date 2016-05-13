@@ -1,0 +1,4 @@
+Welcome,
+
+Click on the link below to continue the verification:
+{{ link }}
