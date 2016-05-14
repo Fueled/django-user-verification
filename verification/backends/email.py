@@ -17,6 +17,7 @@ class EmailBackend(BaseBackend):
 
     def __init__(self, **options):
         super(EmailBackend, self).__init__(**options)
+
         # Lower case it just to be sure
         options = {key.lower(): value for key, value in options.items()}
         self.from_email = options.get('from_email', None)
@@ -37,6 +38,6 @@ class EmailBackend(BaseBackend):
         html_content = loader.get_template(template_name)
 
         context = Context({
-            'url': link
+            'link': link
         })
         return html_content.render(context)

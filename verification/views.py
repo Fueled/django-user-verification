@@ -7,6 +7,7 @@ from django.http import Http404
 from rest_framework import generics, status
 from rest_framework.response import Response
 from rest_framework.exceptions import ValidationError
+from rest_framework.permissions import AllowAny
 
 # Local Stuff
 from verification.serializers import VerificationSerializer
@@ -14,17 +15,23 @@ from verification.services import get_service
 
 
 class VerificationRedirectorView(TemplateView):
-    def get_context_data(self, code=None, *args, **kwargs):
+    def get_context_data(self, code=None, verification_type=None, *args, **kwargs):
         context = super(VerificationRedirectorView, self).get_context_data(*args, **kwargs)
+
+        service_settings = settings.USER_VERIFICATION.get(verification_type, None)
+
+        if not service_settings:
+            raise Http404("Service {} not found".format(verification_type))
+
         context['redirect_url'] = "{}{}/{}".format(
-            settings.PHONE_VERIFICATION.get('APP_URL'),
-            settings.PHONE_VERIFICATION.get('APP_PATH', 'phone_verification'), code)
+            service_settings.get('APP_URL'), verification_type, code)
 
         return context
 
 
 class SendVerificationAPIView(generics.CreateAPIView):
     serializer_class = VerificationSerializer
+    permission_classes = (AllowAny,)
 
     def post(self, request, verification_type=None):
         try:

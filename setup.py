@@ -10,6 +10,31 @@ except ImportError:
     from distutils.core import setup
 
 
+def get_packages(package):
+    """
+    Return root package and all sub-packages.
+    """
+    return [dirpath
+            for dirpath, dirnames, filenames in os.walk(package)
+            if os.path.exists(os.path.join(dirpath, '__init__.py'))]
+
+
+def get_package_data(package):
+    """
+    Return all files under the root package, that are not in a
+    package themselves.
+    """
+    walk = [(dirpath.replace(package + os.sep, '', 1), filenames)
+            for dirpath, dirnames, filenames in os.walk(package)
+            if not os.path.exists(os.path.join(dirpath, '__init__.py'))]
+
+    filepaths = []
+    for base, filenames in walk:
+        filepaths.extend([os.path.join(base, filename)
+                          for filename in filenames])
+    return {package: filepaths}
+
+
 def get_version(*file_paths):
     filename = os.path.join(os.path.dirname(__file__), *file_paths)
     version_file = open(filename).read()
@@ -48,11 +73,12 @@ setup(
     author='Shreyas & Paul',
     author_email='backend@fueled.com',
     url='https://github.com/Fueled/django-user-verification',
-    packages=[
-        'verification',
-    ],
+    packages=get_packages('verification'),
+    package_data=get_package_data('verification'),
     include_package_data=True,
     install_requires=[
+        'twilio>=5.4.0',
+        'djangorestframework>=3.3.3'
     ],
     license="BSD",
     zip_safe=False,
