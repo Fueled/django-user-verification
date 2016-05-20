@@ -6,12 +6,42 @@ from verification.services import get_service
 
 
 class VerificationSerializer(serializers.Serializer):
+    """
+    The verification serializer that can be used inside other serializers
+    so that these can intercept requests for pin verifications.
+
+    This is done by changing the Meta object on that particular serializer,
+    adding verification_type and token_field
+
+    :example:
+        class OtherSerializer(VerificationSerializer):
+            class Meta:
+                verification_type = "email"
+                token_field = "pin"
+
+    This way we know that we have to look for an `email` field and an `pin`
+    field to validate the user.
+    """
+
     class Meta:
-        verification_type = None
+        """
+        Defaults for the Meta class.
+        """
         token_field = 'token'
 
     def validate(self, data):
+        """
+        We override the validate method to do our check on the verification
+        type and token field.
+
+        :param data: dict object to be validated.
+        """
         meta = self.Meta
+
+        if not hasattr(meta, 'verification_type'):
+            raise ValueError("Need an 'verification_type' inside the {} Meta object "
+                             "to be fully functioning.".format(type(self)))
+
         value = data.get(meta.verification_type)
         token = data.get(meta.token_field)
 
