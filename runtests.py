@@ -41,6 +41,10 @@ try:
                 },
                 'APP_URL': 'app://'
             },
+            'fake': {
+                'BACKEND': 'verification.backends.base.BaseBackend',
+                'APP_URL': 'app://'
+            },
 
         },
     )
