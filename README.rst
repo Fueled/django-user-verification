@@ -71,7 +71,6 @@ An example `POST` request for sending to a phone number:
 
 and the payload being:
 
-.. code:: 
     {
         "email": "joe@doe.com" 
     }
@@ -83,7 +82,6 @@ Another example request for sending to an email is:
 
 with the payload being:
 
-.. code:: json
     {
         "email": "joe@doe.com" 
     }
