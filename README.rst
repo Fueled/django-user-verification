@@ -147,6 +147,6 @@ Does the code actually work?
     (myenv) $ pip install -r requirements-test.txt
     (myenv) $ python runtests.py
 
-Running Tests
+Contributing
 --------------
 Feel free to create issues or open pull requests, we would love to see your contributions coming in!
