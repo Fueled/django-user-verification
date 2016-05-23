@@ -67,20 +67,26 @@ Then, go to your `urls.py` file and insert the following in your `urlpatterns`:
 
 An example `POST` request for sending to a phone number:
 
-`/verify/send/phone/`
+``/verify/send/phone/``
 
 and the payload being:
 
-`{ "phone": "+15555555555" }`
+.. code:: 
+    {
+        "email": "joe@doe.com" 
+    }
 
 
 Another example request for sending to an email is:
 
-`/verify/send/email/`
+``/verify/send/email/``
 
 with the payload being:
 
-`{ "email": "joe@doe.com" }`
+.. code:: json
+    {
+        "email": "joe@doe.com" 
+    }
 
 
 Configuration
